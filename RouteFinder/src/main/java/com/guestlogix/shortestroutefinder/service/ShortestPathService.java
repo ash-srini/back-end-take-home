@@ -61,7 +61,7 @@ public class ShortestPathService {
                 }
             }
         }
-        if(airportQueue.isEmpty()){
+        if(route.isEmpty()){
             //throw no route to destination from given source
             logger.info("No route found for given inputs source: {} and destination: {}", source.getIata3(), destination.getIata3());
             throw new NoRouteFoundException("There is no route from given source to destination");

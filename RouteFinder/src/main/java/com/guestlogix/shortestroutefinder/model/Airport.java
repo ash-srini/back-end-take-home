@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonRootName;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -22,6 +23,18 @@ public class Airport implements Serializable, Comparable<Airport> {
     private List<Airport> connectedAirports;
     private List<Airport> shortestPath;
     private Integer distance = Integer.MAX_VALUE;
+
+    public Airport(){}
+
+    public Airport(String name, String city, String country, String iata3, String latitude, String longitude){
+        this.name = name;
+        this.city = city;
+        this.country = country;
+        this.iata3 = iata3;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        connectedAirports = new ArrayList<>();
+    }
 
     public String getName() {
         return name;
