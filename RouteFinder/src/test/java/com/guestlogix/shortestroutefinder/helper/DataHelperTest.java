@@ -5,13 +5,20 @@ import com.guestlogix.shortestroutefinder.model.Airport;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.runner.RunWith;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import javax.validation.constraints.AssertTrue;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * @author aishwaryasrinivasan
  */
+@RunWith(SpringJUnit4ClassRunner.class)
+@SpringBootTest
 public class DataHelperTest {
 
     List<Airport> airportList = new ArrayList<>();
@@ -38,9 +45,18 @@ public class DataHelperTest {
         jfk.getConnectedAirports().add(lax);
     }
 
-    @Test(expected = AirportNotFoundException.class)
+    @Test
     public void testInvalidAirport(){
-        DataHelper.validateAirports("YYZ", "PPP", airportList);
+        AirportNotFoundException exception = Assertions.assertThrows(AirportNotFoundException.class,
+                () ->DataHelper.validateAirports("YYZ", "PPP", airportList),
+                "Expected validateAirports to throw AirportNotFoundException");
+        Assert.assertTrue(exception.getMessage().equals("You have entered an invalid destination airport. Please enter a valid airport code."));
+
+        exception = Assertions.assertThrows(AirportNotFoundException.class,
+                () ->DataHelper.validateAirports("XYZ", "JFK", airportList),
+                "Expected validateAirports to throw AirportNotFoundException");
+        Assert.assertTrue(exception.getMessage().equals("You have entered an invalid origin airport. Please enter a valid airport code."));
+
     }
 
     @Test
