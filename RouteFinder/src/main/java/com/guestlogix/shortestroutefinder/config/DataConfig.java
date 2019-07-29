@@ -82,14 +82,15 @@ public class DataConfig {
         CsvSchema csvSchema = csvMapper.typedSchemaFor(type).withHeader();
         List<T> list = new ArrayList<>();
         try{
-            File file = new ClassPathResource(fileName).getFile();
+            ClassPathResource cl = new ClassPathResource(fileName);
             MappingIterator<T> readValues = new CsvMapper().readerFor(type)
                     .with(csvSchema)
-                    .readValues(file);
+                    .readValues(new InputStreamReader(cl.getInputStream()));
 
             list = readValues.readAll();
             return list;
         }catch(IOException e) {
+            e.printStackTrace();
             logger.error("Could not fine file {}", fileName);
         }
        return list;
